@@ -4,9 +4,9 @@ services:
     container_name: proxy-manager
     restart: always
     ports:
-      - "80:80" #Http
-      - "81:81" #Administración de la API
-      - "443:443" #Https
+      - "80:80" # HTTP
+      - "81:81" # Administración
+      - "443:443" # HTTPS
     volumes:
       - ./npm_data:/data
       - ./npm_letsencrypt:/etc/letsencrypt
@@ -24,30 +24,29 @@ services:
       - mysql-data:/var/lib/mysql
     networks:
       - red-ejemplo-082
-    
     healthcheck:
       test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
       interval: 10s
       timeout: 5s
       retries: 3
 
-    uptime-kuma:
-      image: louislam/uptime-kuma:1
-      container_name: uptime-kuma-082
-      restart: always
-      ports:
-        - "3001:3001"
-      volumes:
-        - uptime-kuma-data:/app/data
-      networks:
-        - red-ejemplo-082
+  uptime-kuma:
+    image: louislam/uptime-kuma:1
+    container_name: uptime-kuma-082
+    restart: always
+    ports:
+      - "3001:3001"
+    volumes:
+      - uptime-kuma-data:/app/data
+    networks:
+      - red-ejemplo-082
 
   app-backend:
     image: andresmancera/sample-api:v1
     container_name: backend-082
     restart: always
     depends_on:
-      db: 
+      db:
         condition: service_healthy
     healthcheck:
       test: ["CMD-SHELL", "curl -f http://localhost:5050/ || exit 1"]
@@ -61,6 +60,7 @@ services:
 
 volumes:
   mysql-data:
+  uptime-kuma-data:
 
 networks:
   red-ejemplo-082:
