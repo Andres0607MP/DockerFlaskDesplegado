@@ -7,7 +7,6 @@ on:
 
 jobs:
   test:
-  build-and-push:
     runs-on: ubuntu-latest
     steps:
       - name: Descargar codigo
@@ -26,6 +25,9 @@ jobs:
       - name: Ejercutar las pruebas
         run: pytest
 
+  build-and-deploy:
+    needs: test
+    runs-on: ubuntu-latest
     steps:
       - name: Descargar código
         uses: actions/checkout@v4
