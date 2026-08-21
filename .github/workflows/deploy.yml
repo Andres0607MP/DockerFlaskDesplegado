@@ -24,7 +24,7 @@ jobs:
         with:
           context: .
           push: true
-          tags: andresmancera/sample-api:v1
+          tags: andresmancera/saample-api:v1
 
       - name: Desplegar el servidor cloud
         uses: appleboy/ssh-action@v1.0.3
@@ -34,5 +34,5 @@ jobs:
           key: ${{ secrets.SERVER_SSH_KEY }}
           script: |
             cd ~/DockerFlaskDesplegado
-            docker-compose pull app-backend
+            docker compose pull app-backend
             docker compose up -d 
