@@ -6,8 +6,25 @@ on:
       - main
 
 jobs:
+  test:
   build-and-push:
     runs-on: ubuntu-latest
+    steps:
+      - name: Descargar codigo
+        uses: actions/checkout@v4
+      - name: Configurar python
+        uses: action/setup-python@v5
+        with:
+          python-version: '3.14'
+
+      - name: Instalar dependencias
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+          pip install pytest
+
+      - name: Ejercutar las pruebas
+        run: pytest
 
     steps:
       - name: Descargar código
