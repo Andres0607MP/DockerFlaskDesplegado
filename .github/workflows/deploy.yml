@@ -8,11 +8,13 @@ on:
 jobs:
   test:
     runs-on: ubuntu-latest
+
     steps:
       - name: Descargar codigo
         uses: actions/checkout@v4
-      - name: Configurar python
-        uses: action/setup-python@v5
+
+      - name: Configurar Python
+        uses: actions/setup-python@v5
         with:
           python-version: '3.14'
 
@@ -22,12 +24,13 @@ jobs:
           pip install -r requirements.txt
           pip install pytest
 
-      - name: Ejercutar las pruebas
+      - name: Ejecutar las pruebas
         run: pytest
 
   build-and-deploy:
     needs: test
     runs-on: ubuntu-latest
+
     steps:
       - name: Descargar código
         uses: actions/checkout@v4
@@ -43,7 +46,7 @@ jobs:
         with:
           context: .
           push: true
-          tags: andresmancera/saample-api:v1
+          tags: andresmancera/sample-api:v1
 
       - name: Desplegar el servidor cloud
         uses: appleboy/ssh-action@v1.0.3
@@ -54,4 +57,4 @@ jobs:
           script: |
             cd ~/DockerFlaskDesplegado
             docker compose pull app-backend
-            docker compose up -d 
+            docker compose up -d
