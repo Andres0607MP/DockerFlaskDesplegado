@@ -1,18 +1,24 @@
-import pytest
-from sample_app import sample
+import requests
+
+BASE_URL = "http://localhost:5050"
 
 
-@pytest.fixture
-def client():
-    sample.config["TESTING"] = True
+def test_api_status():
+    response = requests.get(f"{BASE_URL}/")
 
-    with sample.test_client() as client:
-        yield client
+    assert response.status_code == 200
 
 
-def test_error_conexion_bd(client):
-    respuesta = client.get("/")
+def test_api_response():
+    response = requests.get(f"{BASE_URL}/")
 
-    assert respuesta.status_code == 200
-    assert b"Error al conectar a la base de datos" in respuesta.data
+    assert response.headers["Content-Type"].startswith("application/json")
 
+
+def test_api_has_data():
+    response = requests.get(f"{BASE_URL}/")
+
+    data = response.json()
+
+    assert data is not None
+    assert len(data) > 0
