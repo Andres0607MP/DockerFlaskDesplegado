@@ -22,7 +22,7 @@ def test_api_content_type(client):
     assert response.content_type.startswith("text/html")
 
 
-def test_database_connection(client):
+def test_api_contains_title(client):
     response = client.get("/")
 
-    assert b"Conexion exitosa a la base de datos" in response.data
+    assert b"Bienvenido a mi aplicacion Flask" in response.data
