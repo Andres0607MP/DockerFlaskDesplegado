@@ -8,7 +8,7 @@ sample = Flask(__name__)
 @sample.route ("/")
 def home():
 	try:
-		conn = pymysql.connect(host='servidor-bd-082', user='root', password='sena123', database='082_db')
+		conn = pymysql.connect(host='servidor-bd-erroneo', user='root', password='sena123', database='082_db')
 		conn.close()
 		db_status = 'Conexion exitosa a la base de datos, prueba de CI/CD para despliegue continuo'
 	except Exception as e:
