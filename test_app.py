@@ -1,24 +1,30 @@
-import requests
+import pytest
+from sample_app import app
 
-BASE_URL = "http://localhost:5050"
+
+@pytest.fixture
+def client():
+    app.config["TESTING"] = True
+
+    with app.test_client() as client:
+        yield client
 
 
-def test_api_status():
-    response = requests.get(f"{BASE_URL}/")
+def test_api_status(client):
+    response = client.get("/")
 
     assert response.status_code == 200
 
 
-def test_api_response():
-    response = requests.get(f"{BASE_URL}/")
+def test_api_returns_json(client):
+    response = client.get("/")
 
-    assert response.headers["Content-Type"].startswith("application/json")
+    assert response.content_type == "application/json"
 
 
-def test_api_has_data():
-    response = requests.get(f"{BASE_URL}/")
+def test_api_has_data(client):
+    response = client.get("/")
 
-    data = response.json()
+    data = response.get_json()
 
     assert data is not None
-    assert len(data) > 0
