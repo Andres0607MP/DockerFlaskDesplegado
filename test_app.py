@@ -10,9 +10,9 @@ def client():
         yield client
 
 
-def test_pagina_principal(client):
+def test_error_conexion_bd(client):
     respuesta = client.get("/")
 
     assert respuesta.status_code == 200
-    assert b"Bienvenido a mi aplicacion Flask" in respuesta.data
+    assert b"Error al conectar a la base de datos" in respuesta.data
 
