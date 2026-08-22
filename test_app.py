@@ -1,12 +1,12 @@
 import pytest
-from sample_app import app
+from sample_app import sample
 
 
 @pytest.fixture
 def client():
-    app.config["TESTING"] = True
+    sample.config["TESTING"] = True
 
-    with app.test_client() as client:
+    with sample.test_client() as client:
         yield client
 
 
@@ -16,15 +16,13 @@ def test_api_status(client):
     assert response.status_code == 200
 
 
-def test_api_returns_json(client):
+def test_api_content_type(client):
     response = client.get("/")
 
-    assert response.content_type == "application/json"
+    assert response.content_type.startswith("text/html")
 
 
-def test_api_has_data(client):
+def test_api_contains_title(client):
     response = client.get("/")
 
-    data = response.get_json()
-
-    assert data is not None
+    assert b"Bienvenido a mi aplicacion Flask" in response.data
