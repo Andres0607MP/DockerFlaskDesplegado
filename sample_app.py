@@ -1,20 +1,28 @@
-from flask import Flask
-from flask import request
-from flask import render_template
-import pymysql
+import pytest
+from sample_app import sample
 
-sample = Flask(__name__)
 
-@sample.route ("/")
-def home():
-	try:
-		conn = pymysql.connect(host='dbxd', user='root', password='sena123', database='082_db')
-		conn.close()
-		db_status = 'Conexion exitosa a la base de datos, prueba de CI/CD para despliegue continuo'
-	except Exception as e:
-		db_status = f'Error al conectar a la base de datos: {e}'
+@pytest.fixture
+def client():
+    sample.config["TESTING"] = True
 
-	return f"<h1>Bienvenido a mi aplicacion Flask</h1><h2>{db_status}</h2>"
+    with sample.test_client() as client:
+        yield client
 
-if __name__ == "__main__":
-	sample.run(debug=True, host='0.0.0.0', port=5050)
+
+def test_api_status(client):
+    response = client.get("/")
+
+    assert response.status_code == 200
+
+
+def test_api_content_type(client):
+    response = client.get("/")
+
+    assert response.content_type.startswith("text/html")
+
+
+def test_database_connection(client):
+    response = client.get("/")
+
+    assert b"Conexion exitosa a la base de datos" in response.data
