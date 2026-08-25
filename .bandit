@@ -1,0 +1,2 @@
+[bandit]
+exclude = ./.venv/*,./tempdir/*,./.git/*,./__pycache__/*,./static/*,./templates/*,./nginx/*

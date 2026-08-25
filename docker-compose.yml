@@ -55,6 +55,13 @@ services:
       retries: 3
     ports:
       - "5050:5050"
+    environment:
+      DB_HOST: db
+      DB_USER: root
+      DB_PASSWORD: ${DB_PASSWORD}
+      DB_NAME: ${DB_NAME}
+      FLASK_DEBUG: "false"
+      FLASK_RUN_HOST: "0.0.0.0"
     networks:
       - red-ejemplo-082
 
