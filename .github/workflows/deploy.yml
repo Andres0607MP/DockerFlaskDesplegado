@@ -10,7 +10,7 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Descargar codigo
+      - name: Descargar código
         uses: actions/checkout@v4
 
       - name: Configurar Python
@@ -24,9 +24,8 @@ jobs:
           pip install -r requirements.txt
           pip install pytest bandit
 
-
-      - name: Escaner de Seguridad
-        run: bandit -r . -s B101
+      - name: Escáner de seguridad con Bandit
+        run: bandit -r . -x .venv/ -s B101
 
       - name: Ejecutar las pruebas
         run: pytest
@@ -52,16 +51,15 @@ jobs:
           push: false
           tags: andresmancera/sample-api:v1
 
-
-      - name: Escanear contenedor con tryvy
+      - name: Escanear contenedor con Trivy
         uses: aquasecurity/trivy-action@master
         with:
-          imagen-ref: 'andresmancera/sample-api:v1'
+          image-ref: 'andresmancera/sample-api:v1'
           format: 'table'
-          exit-code: '1' 
+          exit-code: '1'
           ignore-unfixed: true
           vuln-type: 'os,library'
-          severity: 'CRITICAL,HIGH' #son los que van a detener la ejecucion
+          severity: 'CRITICAL,HIGH'
 
       - name: Subir la imagen a Docker Hub
         run: docker push andresmancera/sample-api:v1
