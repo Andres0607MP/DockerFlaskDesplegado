@@ -1,7 +1,7 @@
 Run started:2026-08-25 20:14:43.611770+00:00
 
 Test results:
->> Issue: [B106:hardcoded_password_funcarg] Possible hardcoded password: 'sena123'
+>> Isue: [B106:hardcoded_password_funcarg] Possible hardcoded password: 'sena123'
    Severity: Low   Confidence: Medium
    CWE: CWE-259 (https://cwe.mitre.org/data/definitions/259.html)
    More Info: https://bandit.readthedocs.io/en/1.9.4/plugins/b106_hardcoded_password_funcarg.html
