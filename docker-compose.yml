@@ -4,9 +4,9 @@ services:
     container_name: proxy-manager
     restart: always
     ports:
-      - "80:80" # HTTP
-      - "81:81" # Administración
-      - "443:443" # HTTPS
+      - "80:80"
+      - "81:81"
+      - "443:443"
     volumes:
       - ./npm_data:/data
       - ./npm_letsencrypt:/etc/letsencrypt
@@ -38,6 +38,17 @@ services:
       - "3001:3001"
     volumes:
       - uptime-kuma-data:/app/data
+    networks:
+      - red-ejemplo-082
+
+  dozzle:
+    image: amir20/dozzle:latest
+    container_name: dozzle
+    restart: always
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+    ports:
+      - "8081:8080"
     networks:
       - red-ejemplo-082
 
